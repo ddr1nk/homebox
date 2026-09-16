@@ -18,11 +18,20 @@
     <CollectionInviteCreateModal />
     <SidebarProvider :default-open="sidebarState">
       <Sidebar collapsible="icon">
-        <SidebarHeader class="items-center">
-          <SidebarGroupLabel class="text-base group-data-[collapsible=icon]:hidden">{{
+        <SidebarHeader :class="isModern ? 'gap-4 p-4 group-data-[collapsible=icon]:p-2' : 'items-center'">
+          <NuxtLink
+            v-if="isModern"
+            to="/home"
+            class="flex items-center gap-3 px-1 py-2 group-data-[collapsible=icon]:px-0"
+            aria-label="HomeBox"
+          >
+            <AppLogo class="size-8 shrink-0" />
+            <span class="text-lg font-semibold tracking-tight group-data-[collapsible=icon]:hidden">HomeBox</span>
+          </NuxtLink>
+          <SidebarGroupLabel v-if="!isModern" class="text-base group-data-[collapsible=icon]:hidden">{{
             $t("global.welcome", { username: username })
           }}</SidebarGroupLabel>
-          <NuxtLink class="group-data-[collapsible=icon]:hidden" to="/home">
+          <NuxtLink v-if="!isModern" class="group-data-[collapsible=icon]:hidden" to="/home">
             <div class="flex size-24 items-center justify-center rounded-full bg-background-accent p-4">
               <AppLogo />
             </div>
@@ -33,7 +42,8 @@
           <DropdownMenu>
             <DropdownMenuTrigger as-child>
               <SidebarMenuButton
-                class="flex justify-center bg-primary text-primary-foreground drop-shadow-md hover:bg-primary/90 active:bg-primary/90 active:text-primary-foreground group-data-[collapsible=icon]:justify-start"
+                class="flex justify-center bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground group-data-[collapsible=icon]:justify-start"
+                :class="isModern ? 'h-10 shadow-sm' : 'drop-shadow-md'"
                 :tooltip="$t('global.create')"
                 hotkey="Shortcut: Ctrl+`"
               >
@@ -47,7 +57,8 @@
               <DropdownMenuItem
                 v-for="btn in dropdown"
                 :key="btn.id"
-                class="group cursor-pointer text-lg"
+                class="group cursor-pointer"
+                :class="isModern ? 'text-sm' : 'text-lg'"
                 @click="
                   () => {
                     if (btn.dialogId === DialogID.CreateEntity) {
@@ -136,7 +147,7 @@
               </template>
 
               <!-- makes scanner accessible easily if using legacy header -->
-              <SidebarMenuItem v-if="preferences.displayLegacyHeader">
+              <SidebarMenuItem v-if="showLegacyHeader">
                 <SidebarMenuButton
                   :class="{
                     'text-nowrap': typeof locale === 'string' && locale.startsWith('zh-'),
@@ -170,21 +181,25 @@
       </Sidebar>
       <SidebarInset class="min-h-dvh max-w-full overflow-hidden bg-background-accent">
         <div class="relative flex h-full flex-col justify-center">
-          <div v-if="preferences.displayLegacyHeader">
+          <div v-if="showLegacyHeader">
             <AppHeaderDecor class="-mt-10 hidden lg:block" />
             <SidebarTrigger class="absolute left-2 top-2 hidden lg:flex" variant="default" />
           </div>
           <!-- IMPORTANT: if you change the height of this div, alter the top value in the item edit page-->
           <div
-            class="sticky top-0 z-20 flex h-[var(--header-height-mobile)] translate-y-[-0.5px] flex-col bg-secondary p-2 shadow-md sm:h-[var(--header-height)] sm:flex-row"
-            :class="{
-              'lg:hidden': preferences.displayLegacyHeader,
-            }"
+            class="sticky top-0 z-20 flex h-[var(--header-height-mobile)] flex-col sm:h-[var(--header-height)] sm:flex-row"
+            :class="[
+              isModern
+                ? 'gap-2 border-b bg-background/95 px-4 py-2 backdrop-blur sm:px-6'
+                : 'translate-y-[-0.5px] bg-secondary p-2 shadow-md',
+              { 'lg:hidden': showLegacyHeader },
+            ]"
           >
             <div class="flex h-1/2 items-center gap-2 sm:h-auto">
-              <SidebarTrigger variant="default" />
+              <SidebarTrigger :variant="isModern ? 'ghost' : 'default'" />
               <NuxtLink to="/home">
-                <AppHeaderText class="h-6" />
+                <span v-if="isModern" class="text-sm font-medium">{{ activePageTitle }}</span>
+                <AppHeaderText v-else class="h-6" />
               </NuxtLink>
             </div>
             <div class="sm:grow" />
@@ -197,12 +212,22 @@
                 @keyup.enter="triggerSearch"
               />
               <div>
-                <Button size="icon" @click="triggerSearch">
+                <Button
+                  size="icon"
+                  :variant="isModern ? 'outline' : 'default'"
+                  :aria-label="$t('global.search')"
+                  @click="triggerSearch"
+                >
                   <MdiMagnify />
                 </Button>
               </div>
               <div>
-                <Button size="icon" @click="openScanner">
+                <Button
+                  size="icon"
+                  :variant="isModern ? 'outline' : 'default'"
+                  :aria-label="$t('menu.scanner')"
+                  @click="openScanner"
+                >
                   <MdiQrcodeScan />
                 </Button>
               </div>
@@ -307,6 +332,8 @@
   const { openDialog } = useDialog();
 
   const preferences = useViewPreferences();
+  const { isModern } = useInterfaceTheme();
+  const showLegacyHeader = computed(() => !isModern.value && preferences.value.displayLegacyHeader);
 
   // get sidebar state from cookies
   const sidebarState = useCookie("sidebar:state", {
@@ -493,6 +520,15 @@
       ],
     },
   ];
+
+  const activePageTitle = computed(() => {
+    for (const entry of nav) {
+      const child = entry.collapsible?.find(child => child.active.value);
+      if (child) return child.name.value;
+      if (entry.active.value) return entry.name.value;
+    }
+    return "HomeBox";
+  });
 
   const quickMenuActions = reactive([
     ...dropdown.map(v => ({

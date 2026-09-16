@@ -14,6 +14,7 @@
   import LanguageSelector from "~/components/App/LanguageSelector.vue";
   import { DialogID } from "~/components/ui/dialog-provider/utils";
   import ThemePicker from "~/components/App/ThemePicker.vue";
+  import InterfaceThemePicker from "~/components/App/InterfaceThemePicker.vue";
   import ItemDuplicateSettings from "~/components/Item/DuplicateSettings.vue";
   import FormPassword from "~/components/Form/Password.vue";
   import FormTextField from "~/components/Form/TextField.vue";
@@ -42,6 +43,7 @@
   const { openDialog, closeDialog } = useDialog();
 
   const preferences = useViewPreferences();
+  const { isModern } = useInterfaceTheme();
   function setDisplayHeader() {
     preferences.value.displayLegacyHeader = !preferences.value.displayLegacyHeader;
   }
@@ -468,15 +470,16 @@
         </template>
 
         <div class="px-4 pb-4">
-          <div class="mb-3 flex gap-2">
-            <Button variant="secondary" size="sm" @click="setDisplayHeader">
+          <InterfaceThemePicker />
+          <div class="mb-3 flex flex-wrap gap-2">
+            <Button v-if="!isModern" variant="secondary" size="sm" @click="setDisplayHeader">
               {{ $t("profile.display_legacy_header", { currentValue: preferences.displayLegacyHeader }) }}
             </Button>
             <Button variant="secondary" size="sm" @click="setLegacyImageFit">
               {{ $t("profile.legacy_image_fit", { currentValue: preferences.legacyImageFit }) }}
             </Button>
           </div>
-          <ThemePicker />
+          <ThemePicker v-if="!isModern" />
         </div>
       </BaseCard>
 

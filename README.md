@@ -1,3 +1,7 @@
+> **ddr1nk/homebox** — personal HomeBox fork with Classic / Modern interface themes.
+> Container image: `ghcr.io/ddr1nk/homebox:latest` (amd64 and arm64).
+> See [deployment and updates](docs/DEPLOYMENT.md). Upstream project information follows below.
+
 <div align="center">
   <img src="/docs/src/assets/lilbox.svg" height="200"/>
 </div>

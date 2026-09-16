@@ -17,6 +17,14 @@
 **/compose*
 **/Dockerfile*
 **/node_modules
+**/.nuxt
+**/.output
+**/.cache
+**/.data
+**/test-results
+**/playwright-report
+homebox-*.tar
+homebox-*.tar.gz
 **/npm-debug.log
 **/obj
 **/secrets.dev.yaml

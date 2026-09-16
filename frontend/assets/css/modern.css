@@ -1,0 +1,66 @@
+/* Scoped to the interface choice, including dialogs teleported to body. */
+html[data-interface-theme="modern"] {
+  color-scheme: light;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  --background: 0 0% 100%;
+  --background-accent: 240 5% 97%;
+  --foreground: 240 10% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 10%;
+  --primary: 160 84% 28%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 240 5% 96%;
+  --secondary-foreground: 240 6% 10%;
+  --muted: 240 5% 96%;
+  --muted-foreground: 240 4% 46%;
+  --accent: 156 30% 94%;
+  --accent-foreground: 160 84% 24%;
+  --destructive: 0 72% 45%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 240 6% 90%;
+  --input: 240 6% 86%;
+  --ring: 160 84% 28%;
+  --sidebar-background: 0 0% 100%;
+  --sidebar-foreground: 240 5% 34%;
+  --sidebar-primary: 160 84% 28%;
+  --sidebar-primary-foreground: 0 0% 100%;
+  --sidebar-accent: 156 30% 94%;
+  --sidebar-accent-foreground: 160 84% 24%;
+  --sidebar-border: 240 6% 90%;
+  --sidebar-ring: 160 84% 28%;
+  --radius: 0.625rem;
+}
+
+html[data-interface-theme="modern"] [data-sidebar="menu-button"] {
+  height: 2.5rem;
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+
+html[data-interface-theme="modern"] [data-sidebar="menu-button"] > svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+html[data-interface-theme="modern"] [data-sidebar="menu-sub"] [data-sidebar="menu-button"] {
+  height: 2rem;
+  min-height: 2rem;
+  font-weight: 400;
+}
+
+html[data-interface-theme="modern"] footer {
+  color: hsl(var(--muted-foreground));
+}
+
+html[data-interface-theme="modern"] [data-sidebar="trigger"] svg {
+  color: hsl(var(--foreground));
+}
+
+html[data-interface-theme="modern"] [data-slot="card"] {
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.04);
+}

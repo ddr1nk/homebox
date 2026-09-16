@@ -1,5 +1,5 @@
 <template>
-  <Card class="overflow-hidden shadow-xl">
+  <Card class="overflow-hidden" :class="isModern ? 'border shadow-sm' : 'shadow-xl'">
     <CardHeader v-if="$slots.title" class="px-4 py-5 sm:px-6">
       <component :is="collapsable ? 'button' : 'div'" v-on="collapsable ? { click: toggle } : {}">
         <h3 class="flex items-center text-lg font-medium leading-6">
@@ -35,6 +35,7 @@
 <script setup lang="ts">
   import MdiChevronDown from "~icons/mdi/chevron-down";
   import { Card, CardContent, CardHeader } from "@/components/ui/card";
+  const { isModern } = useInterfaceTheme();
 
   defineProps<{
     collapsable?: boolean;

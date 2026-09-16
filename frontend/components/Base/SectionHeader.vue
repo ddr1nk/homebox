@@ -1,6 +1,6 @@
 <template>
-  <div class="pb-3">
-    <CardTitle class="flex items-center">
+  <div :class="isModern ? 'space-y-2' : 'pb-3'">
+    <CardTitle class="flex items-center" :class="{ 'text-lg leading-6': isModern }">
       <slot />
     </CardTitle>
     <slot name="subtitle" />
@@ -15,4 +15,5 @@
 
 <script lang="ts" setup>
   import { CardDescription, CardTitle } from "@/components/ui/card";
+  const { isModern } = useInterfaceTheme();
 </script>

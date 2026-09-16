@@ -17,6 +17,7 @@ export type LocationViewPreferences = {
   editorAdvancedView: boolean;
   itemDisplayView: ViewType;
   theme: DaisyTheme;
+  interfaceTheme: "classic" | "modern";
   itemsPerTablePage: number;
   tableHeaders?: {
     value: keyof EntitySummary;
@@ -43,6 +44,7 @@ const DEFAULT_PREFERENCES: LocationViewPreferences = {
   editorAdvancedView: false,
   itemDisplayView: "card",
   theme: "homebox",
+  interfaceTheme: "classic",
   itemsPerTablePage: 12,
   displayLegacyHeader: false,
   legacyImageFit: false,

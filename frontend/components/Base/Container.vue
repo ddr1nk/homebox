@@ -12,7 +12,10 @@
     },
   });
 
-  const cmpClass = computed(() => cn("container mx-auto my-4 max-w-7xl px-4", props.class));
+  const { isModern } = useInterfaceTheme();
+  const cmpClass = computed(() =>
+    cn("container mx-auto max-w-7xl px-4", isModern.value ? "my-6 sm:my-8 sm:px-6" : "my-4", props.class)
+  );
 </script>
 
 <template>

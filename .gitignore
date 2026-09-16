@@ -50,6 +50,8 @@ node_modules
 .cache
 .output
 .env
+homebox-*.tar
+homebox-*.tar.gz
 dist
 
 .pnpm-store

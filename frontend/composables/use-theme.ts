@@ -45,9 +45,11 @@ export function useTheme(): UseTheme {
 
 export function useIsThemeInList(list: DaisyTheme[]) {
   const theme = useTheme();
+  const { isModern } = useInterfaceTheme();
 
   return computed(() => {
-    return list.includes(theme.theme.value);
+    // Legacy palette-specific fixes must not affect the modern light interface.
+    return !isModern.value && list.includes(theme.theme.value);
   });
 }
 
